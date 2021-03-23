@@ -13,20 +13,35 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function _objectSpread(target) {
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
 
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
     }
-
-    ownKeys.forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    });
   }
 
   return target;
@@ -69,19 +84,15 @@ function _objectWithoutProperties(source, excluded) {
 }
 
 function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 
 function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
 
 function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
 
 function _arrayWithHoles(arr) {
@@ -89,10 +100,11 @@ function _arrayWithHoles(arr) {
 }
 
 function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
 
 function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
   var _arr = [];
   var _n = true;
   var _d = false;
@@ -118,12 +130,29 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+  return arr2;
+}
+
 function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
 function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
 var booleans = {
@@ -154,42 +183,42 @@ var booleans = {
   typemustmatch: 1
 };
 var svgCaseSensitiveTagNames = {
-  "altglyph": "altGlyph",
-  "altglyphdef": "altGlyphDef",
-  "altglyphitem": "altGlyphItem",
-  "animatecolor": "animateColor",
-  "animatemotion": "animateMotion",
-  "animatetransform": "animateTransform",
-  "clippath": "clipPath",
-  "feblend": "feBlend",
-  "fecolormatrix": "feColorMatrix",
-  "fecomponenttransfer": "feComponentTransfer",
-  "fecomposite": "feComposite",
-  "feconvolvematrix": "feConvolveMatrix",
-  "fediffuselighting": "feDiffuseLighting",
-  "fedisplacementmap": "feDisplacementMap",
-  "fedistantlight": "feDistantLight",
-  "feflood": "feFlood",
-  "fefunca": "feFuncA",
-  "fefuncb": "feFuncB",
-  "fefuncg": "feFuncG",
-  "fefuncr": "feFuncR",
-  "fegaussianblur": "feGaussianBlur",
-  "feimage": "feImage",
-  "femerge": "feMerge",
-  "femergenode": "feMergeNode",
-  "femorphology": "feMorphology",
-  "feoffset": "feOffset",
-  "fepointlight": "fePointLight",
-  "fespecularlighting": "feSpecularLighting",
-  "fespotlight": "feSpotLight",
-  "fetile": "feTile",
-  "feturbulence": "feTurbulence",
-  "foreignobject": "foreignObject",
-  "glyphref": "glyphRef",
-  "lineargradient": "linearGradient",
-  "radialgradient": "radialGradient",
-  "textpath": "textPath"
+  altglyph: 'altGlyph',
+  altglyphdef: 'altGlyphDef',
+  altglyphitem: 'altGlyphItem',
+  animatecolor: 'animateColor',
+  animatemotion: 'animateMotion',
+  animatetransform: 'animateTransform',
+  clippath: 'clipPath',
+  feblend: 'feBlend',
+  fecolormatrix: 'feColorMatrix',
+  fecomponenttransfer: 'feComponentTransfer',
+  fecomposite: 'feComposite',
+  feconvolvematrix: 'feConvolveMatrix',
+  fediffuselighting: 'feDiffuseLighting',
+  fedisplacementmap: 'feDisplacementMap',
+  fedistantlight: 'feDistantLight',
+  feflood: 'feFlood',
+  fefunca: 'feFuncA',
+  fefuncb: 'feFuncB',
+  fefuncg: 'feFuncG',
+  fefuncr: 'feFuncR',
+  fegaussianblur: 'feGaussianBlur',
+  feimage: 'feImage',
+  femerge: 'feMerge',
+  femergenode: 'feMergeNode',
+  femorphology: 'feMorphology',
+  feoffset: 'feOffset',
+  fepointlight: 'fePointLight',
+  fespecularlighting: 'feSpecularLighting',
+  fespotlight: 'feSpotLight',
+  fetile: 'feTile',
+  feturbulence: 'feTurbulence',
+  foreignobject: 'foreignObject',
+  glyphref: 'glyphRef',
+  lineargradient: 'linearGradient',
+  radialgradient: 'radialGradient',
+  textpath: 'textPath'
 };
 
 /**
@@ -199,49 +228,49 @@ var svgCaseSensitiveTagNames = {
 var ENTITY_REGEX = /(&#?\w+;)/;
 var TAG_REGEX = /^[a-zA-Z][a-zA-Z0-9\-\:]*$/;
 var indentOptions = {
-  "2": {
-    label: "2 spaces",
-    value: "  "
+  2: {
+    label: '2 spaces',
+    value: '  '
   },
-  "4": {
-    label: "4 spaces",
-    value: "    "
+  4: {
+    label: '4 spaces',
+    value: '    '
   },
-  "tab": {
-    label: "Tabs",
-    value: "\t"
+  tab: {
+    label: 'Tabs',
+    value: '\t'
   }
 };
-var defaultIndentOption = indentOptions["2"];
+var defaultIndentOption = indentOptions['2'];
 var attrsOptions = {
-  "attributes": {
-    label: "Attributes",
-    value: "attributes"
+  attributes: {
+    label: 'Attributes',
+    value: 'attributes'
   },
-  "selectors": {
-    label: "Selectors",
-    value: "selectors"
+  selectors: {
+    label: 'Selectors',
+    value: 'selectors'
   }
 };
-var defaultAttrsOption = attrsOptions["attributes"];
+var defaultAttrsOption = attrsOptions['attributes'];
 var quotesOptions = {
   "double": {
-    label: "Double",
-    value: "\""
+    label: 'Double',
+    value: '"'
   },
-  "single": {
-    label: "Single",
+  single: {
+    label: 'Single',
     value: "'"
   }
 };
-var defaultQuotesOption = quotesOptions["double"];
+var defaultQuotesOption = quotesOptions['double'];
 
 var normaliseDoubleQuotes = function normaliseDoubleQuotes(str, quoteChar) {
-  return str.replace(new RegExp("\"", "g"), quoteChar);
+  return str.replace(new RegExp('"', 'g'), quoteChar);
 };
 /**
- * @param {Array} list 
- * @param {function} f 
+ * @param {Array} list
+ * @param {function} f
  */
 
 
@@ -251,25 +280,25 @@ var each = function each(list, f) {
   }
 };
 /**
- * @param {string} markup 
+ * @param {string} markup
  * @returns {Array<ChildNode>}
  */
 
 
 var createFragment = function createFragment(markup) {
   // escape HTML entities, to be resolved in addVirtualString
-  markup = markup.replace(/&/g, "&amp;");
+  markup = markup.replace(/&/g, '&amp;');
 
-  if (markup.indexOf("<!doctype") >= 0) {
-    return [new DOMParser().parseFromString(markup, "text/html").childNodes[1]];
+  if (markup.indexOf('<!doctype') >= 0) {
+    return [new DOMParser().parseFromString(markup, 'text/html').childNodes[1]];
   }
 
-  var container = document.createElement("div");
-  container.insertAdjacentHTML("beforeend", markup);
+  var container = document.createElement('div');
+  container.insertAdjacentHTML('beforeend', markup);
   return _toConsumableArray(container.childNodes);
 };
 /**
- * @param {Array<Node>|Array<ChildNode>} fragment 
+ * @param {Array<Node>|Array<ChildNode>} fragment
  * @returns {Array<Vnode>}
  */
 
@@ -311,15 +340,15 @@ var createVirtual = function createVirtual(fragment) {
   return list;
 };
 /**
- * @param {string} style 
+ * @param {string} style
  * @returns {Array<Array<string>>}
  */
 
 
 var styleToList = function styleToList(style) {
-  var styleAttrs = style.replace(/(^.*);\s*$/, "$1"); // trim trailing semi-colon
+  var styleAttrs = style.replace(/(^.*);\s*$/, '$1'); // trim trailing semi-colon
 
-  styleAttrs = styleAttrs.replace(/[\n\r]/g, ""); // remove newlines
+  styleAttrs = styleAttrs.replace(/[\n\r]/g, ''); // remove newlines
 
   var list = styleAttrs.split(/\s*;\s*/); // ["color:#f00", "border:1px solid red"]
 
@@ -329,7 +358,7 @@ var styleToList = function styleToList(style) {
   return styleList;
 };
 /**
- * @param {Array<Array<string>>} styleList 
+ * @param {Array<Array<string>>} styleList
  * @returns {object}
  */
 
@@ -346,8 +375,8 @@ var styleListToObject = function styleListToObject(styleList) {
   return obj;
 };
 /**
- * 
- * @param {Array<Vnode>} virtual 
+ *
+ * @param {Array<Vnode>} virtual
  * @param {object} opts
  * @param {string} opts.attrs
  * @param {string} opts.quoteChar
@@ -360,7 +389,7 @@ function TemplateBuilder(virtual, _ref4) {
   this.virtual = virtual;
   this.attrs = attrs;
   this.quoteChar = quoteChar;
-  this.embeddedQuoteChar = quoteChar === "\"" ? "'" : "\"";
+  this.embeddedQuoteChar = quoteChar === '"' ? "'" : '"';
   this.children = []; // each child is an object with attributes: node, children, content
 }
 
@@ -368,7 +397,7 @@ TemplateBuilder.prototype = {
   addVirtualString: function addVirtualString(el) {
     var _this = this;
 
-    var content = el.replace(/(["\r\n])/g, "\\$1"); // handle HTML entities
+    var content = el.replace(/(["\r\n])/g, '\\$1'); // handle HTML entities
 
     var contentWithEntities = content.split(ENTITY_REGEX);
 
@@ -392,7 +421,7 @@ TemplateBuilder.prototype = {
   },
 
   /**
-   * @param {object} vnode 
+   * @param {object} vnode
    */
   addVirtualAttrs: function addVirtualAttrs(vnode) {
     var _this2 = this;
@@ -406,20 +435,20 @@ TemplateBuilder.prototype = {
       return "".concat(_this2.quoteChar).concat(tag).concat(className).concat(attrsAsSelectorString).concat(_this2.quoteChar).concat(attrsAsObjectString).concat(style);
     };
 
-    var defaultTag = "div";
+    var defaultTag = 'div';
     var data = {
-      tag: "",
-      className: "",
-      attrsAsSelectorString: "",
-      attrsAsObjectString: "",
-      style: ""
+      tag: '',
+      className: '',
+      attrsAsSelectorString: '',
+      attrsAsObjectString: '',
+      style: ''
     };
 
     var _vnode$attrs = vnode.attrs,
         _vnode$attrs$class = _vnode$attrs["class"],
-        className = _vnode$attrs$class === void 0 ? "" : _vnode$attrs$class,
+        className = _vnode$attrs$class === void 0 ? '' : _vnode$attrs$class,
         _vnode$attrs$style = _vnode$attrs.style,
-        style = _vnode$attrs$style === void 0 ? "" : _vnode$attrs$style,
+        style = _vnode$attrs$style === void 0 ? '' : _vnode$attrs$style,
         attrs = _objectWithoutProperties(_vnode$attrs, ["class", "style"]);
 
     var validAttrs = Object.keys(attrs).filter(function (name) {
@@ -429,18 +458,18 @@ TemplateBuilder.prototype = {
       return obj;
     }, {});
 
-    if (this.attrs === attrsOptions["selectors"].value) {
+    if (this.attrs === attrsOptions['selectors'].value) {
       // tag
-      data.tag = vnode.tag === defaultTag ? Object.keys(validAttrs).length === 0 ? "div" : "" : vnode.tag; // className
+      data.tag = vnode.tag === defaultTag ? Object.keys(validAttrs).length === 0 ? 'div' : '' : vnode.tag; // className
 
-      data.className = className ? ".".concat(className.replace(/\s+/g, ".")) : ""; // attrs
+      data.className = className ? ".".concat(className.replace(/\s+/g, '.')) : ''; // attrs
 
       data.attrsAsSelectorString = Object.keys(validAttrs).map(function (name) {
-        var value = validAttrs[name].replace(/[\n\r\t]/g, " ").replace(/\s+/g, " ") // clean up redundant spaces we just created
-        .replace(new RegExp(_this2.embeddedQuoteChar, "g"), _this2.quoteChar); // escape quotes
+        var value = validAttrs[name].replace(/[\n\r\t]/g, ' ').replace(/\s+/g, ' ') // clean up redundant spaces we just created
+        .replace(new RegExp(_this2.embeddedQuoteChar, 'g'), _this2.quoteChar); // escape quotes
 
         return booleans[name] && name === value ? "[".concat(name, "]") : "[".concat(name, "=").concat(_this2.embeddedQuoteChar).concat(value).concat(_this2.embeddedQuoteChar, "]");
-      }).join(""); // style
+      }).join(''); // style
 
       if (style) {
         var styleList = styleToList(style);
@@ -451,9 +480,9 @@ TemplateBuilder.prototype = {
     } else {
       var _styleAttrs = style ? styleListToObject(styleToList(style)) : {};
 
-      var withStyleAttrs = _objectSpread({}, className.length > 0 ? {
+      var withStyleAttrs = _objectSpread2(_objectSpread2(_objectSpread2({}, className.length > 0 ? {
         "class": normaliseDoubleQuotes(className, this.quoteChar)
-      } : {}, validAttrs, Object.keys(_styleAttrs).length > 0 ? {
+      } : {}), validAttrs), Object.keys(_styleAttrs).length > 0 ? {
         style: _styleAttrs
       } : {}); // tag
 
@@ -476,7 +505,7 @@ TemplateBuilder.prototype = {
   },
   complete: function complete() {
     each(this.virtual, function (vnode) {
-      if (typeof vnode === "string") {
+      if (typeof vnode === 'string') {
         // First test which characters are left when performing a trim
         var trimmed = vnode.trim();
         var charCode = vnode.charCodeAt(0); // dimiss:
@@ -485,10 +514,10 @@ TemplateBuilder.prototype = {
         // - single newlines
         // - characters with char code lower than SPACE, but allow newlines in multiline text
 
-        if (trimmed.length !== 0 && trimmed !== "\"" && !(trimmed.length === 1 && charCode === 10) && (charCode === 10 || charCode >= 32)) {
+        if (trimmed.length !== 0 && trimmed !== '"' && !(trimmed.length === 1 && charCode === 10) && (charCode === 10 || charCode >= 32)) {
           // We don't use the actual trimmed string because we need to preserve whitespace.
           // But we do want to get rid of newlines and tabs.
-          var safeStr = vnode.replace(/[\n\r\t]/g, " ").replace(/\s+/g, " "); // clean up redundant spaces we just created
+          var safeStr = vnode.replace(/[\n\r\t]/g, ' ').replace(/\s+/g, ' '); // clean up redundant spaces we just created
 
           this.addVirtualString(safeStr);
         }
@@ -500,14 +529,14 @@ TemplateBuilder.prototype = {
   }
 };
 /**
- * @param {number} level 
- * @param {string} indent 
+ * @param {number} level
+ * @param {string} indent
  * @returns {string}
  */
 
 var whitespace = function whitespace(level, indent) {
-  if (level < 0) return "";
-  var whitespace = "";
+  if (level < 0) return '';
+  var whitespace = '';
 
   for (var i = 0; i < level; i++) {
     whitespace += indent;
@@ -516,7 +545,7 @@ var whitespace = function whitespace(level, indent) {
   return whitespace;
 };
 /**
- * @param {string} content 
+ * @param {string} content
  * @returns {string}
  */
 
@@ -525,8 +554,8 @@ var wrapperTemplate = function wrapperTemplate(content) {
   return "[".concat(content, "\n]");
 };
 /**
- * @param {string} content 
- * @param {string} whitespace 
+ * @param {string} content
+ * @param {string} whitespace
  * @returns {string}
  */
 
@@ -535,8 +564,8 @@ var contentTemplate = function contentTemplate(content, whitespace) {
   return "\n".concat(whitespace).concat(content);
 };
 /**
- * @param {string} mithrilNode 
- * @param {string} whitespace 
+ * @param {string} mithrilNode
+ * @param {string} whitespace
  * @returns {string}
  */
 
@@ -545,9 +574,9 @@ var singleMithrilNodeTemplate = function singleMithrilNodeTemplate(mithrilNode, 
   return "\n".concat(whitespace, "m(").concat(mithrilNode, ")");
 };
 /**
- * @param {string} mithrilNode 
- * @param {Array<string>} children 
- * @param {string} whitespace 
+ * @param {string} mithrilNode
+ * @param {Array<string>} children
+ * @param {string} whitespace
  * @param {string} indentChars
  * @returns {string}
  */
@@ -557,9 +586,9 @@ var mithrilNodeMultipleChildrenTemplate = function mithrilNodeMultipleChildrenTe
   return "\n".concat(whitespace, "m(").concat(mithrilNode, ",\n").concat(whitespace).concat(indentChars, "[").concat(children, "\n").concat(whitespace).concat(indentChars, "]\n").concat(whitespace, ")");
 };
 /**
- * @param {string} mithrilNode 
- * @param {Array<string>} children 
- * @param {string} whitespace 
+ * @param {string} mithrilNode
+ * @param {Array<string>} children
+ * @param {string} whitespace
  * @returns {string}
  */
 
@@ -568,9 +597,9 @@ var mithrilNodeSingleChildTemplate = function mithrilNodeSingleChildTemplate(mit
   return "\n".concat(whitespace, "m(").concat(mithrilNode, ", ").concat(children, "\n").concat(whitespace, ")");
 };
 /**
- * @param {string} mithrilNode 
- * @param {Array<string>} children 
- * @param {string} whitespace 
+ * @param {string} mithrilNode
+ * @param {Array<string>} children
+ * @param {string} whitespace
  * @param {string} indentChars
  * @returns {string}
  */
@@ -580,8 +609,8 @@ var template = function template(mithrilNode, children, whitespace, indentChars)
   return children ? children.length > 1 ? mithrilNodeMultipleChildrenTemplate(mithrilNode, children, whitespace, indentChars) : mithrilNodeSingleChildTemplate(mithrilNode, children, whitespace) : singleMithrilNodeTemplate(mithrilNode, whitespace);
 };
 /**
- * @param {Array} data 
- * @param {number} level 
+ * @param {Array} data
+ * @param {number} level
  * @param {string} indentChars
  * @returns {Array<string>}
  */
@@ -599,14 +628,14 @@ var formatCode = function formatCode(data, level, indentChars) {
       return contentTemplate(d.content, space);
     }
 
-    var node = d.node || "";
+    var node = d.node || '';
     var newLevel = level + (d.children && d.children.length > 1 ? 2 : 1);
     var children = formatCode(d.children, newLevel, indentChars);
     return template(node, children, space, indentChars);
   });
 };
 /**
- * @param {object} opts 
+ * @param {object} opts
  * @param {string} opts.source - String containing HTML markup
  * @param {("2" | "4" | "tab")} [opts.indent] - Indent; default "2"
  * @param {("double" | "single")} [opts.quotes] - Quotes; default "double"
@@ -628,7 +657,7 @@ var templateBuilder = function templateBuilder(opts) {
   var indentChars = indentOptions[opts.indent] ? indentOptions[opts.indent].value : defaultIndentOption.value;
   var formatted = formatCode(parsed, indentLevel, indentChars); // only wrap output in brackets when it is a list
 
-  var wrapped = formatted.length > 1 ? wrapperTemplate(formatted.join(", ")) : formatted.join("").trim();
+  var wrapped = formatted.length > 1 ? wrapperTemplate(formatted.join(', ')) : formatted.join('').trim();
   return wrapped;
 };
 
