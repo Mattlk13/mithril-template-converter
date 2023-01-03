@@ -21,9 +21,9 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
     "compression-webpack-plugin": "^2.0.0",
-    "css-loader": "^2.1.1",
+    "css-loader": "^6.7.3",
     "lerna": "^3.13.4",
-    "mini-css-extract-plugin": "0.6.0",
+    "mini-css-extract-plugin": "2.7.2",
     "rollup": "^1.10.1",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.3.4",
@@ -33,10 +33,10 @@
     "rollup-plugin-pathmodify": "^1.0.1",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-terser": "^4.0.4",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.30.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.75.0",
     "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-cli": "^3.3.1",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^3.3.1"
   }
 }
